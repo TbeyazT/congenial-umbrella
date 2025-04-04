@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <!-- buğra tarafından senin için 🫀 -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hoşgeldin</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@700&family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-text">Hoş Geldin!</div>
+        <div class="countdown" id="countdown">3</div>
+    </div>
+
+    <div class="container" id="container">
+        <div class="gift-container">
+            <div class="gift-box" id="giftBox"></div>
+        </div>
+
+        <div class="birthday-content" id="birthdayContent">
+            <h1>Doğum Günün Kutlu Olsun Nazlı! 🎂</h1>
+            <div class="cake">🎂</div>
+            <div class="message">
+                Hayatının bu özel gününde sana mutluluk, sağlık, başarı ve nice bizli dolu bir yıl diliyorum! 🥳
+            </div>
+            <div class="photo-frame">
+                <img src="nazlivebugra.png" alt="Nazlı's Photo" class="profile-photo" />
+            </div>
+        </div>
+
+        <div class="letter-btn-container" id="letterBtnContainer">
+            <img src="letter.png" alt="Letter" class="letter-btn" id="letterBtn" />
+        </div>
+
+
+        <div class="balloons" id="balloons"></div>
+
+        <div class="letter" id="letter">
+            <button class="letter-close-btn" id="letterCloseBtn">×</button>
+            <div class="letter-header">Sevgili Nazlı,</div>
+            <div class="letter-content">
+                Bugün senin doğum günün. <br><br>
+                4 yıl önce başlayan dostluğumuz zamanla farklı yönlere gitti bazen yaklaştık bazen uzaklaştık… ama seni
+                hep sevdim Hatalar yaptım ama ben hiçbir zaman seni kırmak istemedim
+                Şimdi burada sadece arkadaşız… ama bilmeni isterim içimde sana karşı hep bitmek bilmeyen sevgi dolup
+                taşıyor 💙<br><br>
+                Bu küçük sayfayı sana özel olarak hazırladım Çünkü sen özelsin belki hala her şey düzelmez belki aynı yolda yürüyemiyebilriz Ama ben sana iyi ki doğdun diyebilmek ve Ufak bir hediye verebilmek istedim çünkü gerçekten… iyi ki varsın. <br><br>
+                Gülümsemen hiçbir zaman yüzünden düşmesin.
+                Doğum günün kutlu olsun Nazlı.<br><br>
+                - Buğra
+            </div>
+            <div class="letter-signature">Sevgilerle...</div>
+        </div>
+    </div>
+
+    <script>
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const countdownEl = document.getElementById('countdown');
+        const container = document.getElementById('container');
+        const giftBox = document.getElementById('giftBox');
+        const birthdayContent = document.getElementById('birthdayContent');
+        const balloonsContainer = document.getElementById('balloons');
+        const letter = document.getElementById('letter');
+        const letterBtn = document.getElementById('letterBtn');
+        const letterBtnContainer = document.getElementById('letterBtnContainer');
+        const letterCloseBtn = document.getElementById('letterCloseBtn');
+        const bgMusic = new Audio('music.mp3');
+
+        let count = 3;
+        const countdown = setInterval(() => {
+            count--;
+            countdownEl.textContent = count;
+            if (count <= 0) {
+                clearInterval(countdown);
+                welcomeScreen.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                    container.style.display = 'block';
+                    createBalloons(15);
+                }, 1000);
+            }
+        }, 1000);
+
+        giftBox.addEventListener('click', function () {
+            this.classList.add('open');
+            bgMusic.play();
+            setTimeout(() => {
+                birthdayContent.classList.add('show');
+                createConfetti(100);
+                setTimeout(() => {
+                    letterBtnContainer.style.opacity = '1';
+                }, 3000);
+            }, 800);
+        });
+
+        letterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            letter.classList.add('show');
+        });
+
+        letterCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            letter.classList.remove('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!letter.contains(e.target) && e.target !== letterBtn) {
+                letter.classList.remove('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            createSparkle(e.clientX, e.clientY);
+        });
+
+        function createBalloons(count) {
+            const balloons = ['🎈'];
+            for (let i = 0; i < count; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.textContent = balloons[0];
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.bottom = -100 + 'px';
+                balloon.style.animationDelay = Math.random() * 5 + 's';
+                balloon.style.fontSize = (Math.random() * 20 + 30) + 'px';
+                balloonsContainer.appendChild(balloon);
+            }
+        }
+
+        function createConfetti(count) {
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -20 + 'px';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 7000);
+            }
+        }
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1500);
+        }
+    </script>
+</body>
+
+</html>
